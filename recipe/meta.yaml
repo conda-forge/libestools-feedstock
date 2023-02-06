@@ -10,8 +10,10 @@ source:
   sha256: 8781ab15ce13fcddcb7df8fd23755a5cb6e4ab7d1a9bdbd741128b990b425496
 
 build:
+  run_exports:
+    - {{ pin_subpackage('libestools', min_pin='x.x', max_pin='x.x') }}
   skip: True  # [not linux]
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -22,14 +24,56 @@ requirements:
   host:
     - ncurses
 
-test:
-  commands:
-    - test -f $PREFIX/lib/libestbase.so  # [linux]
-    - test -f $PREFIX/lib/libestbase.so.2.5  # [linux]
-    - test -f $PREFIX/lib/libestools.so  # [linux]
-    - test -f $PREFIX/lib/libestools.so.2.5  # [linux]
-    - test -f $PREFIX/lib/libeststring.so  # [linux]
-    - test -f $PREFIX/lib/libeststring.so.2.5  # [linux]
+outputs:
+  - name: libestools
+    script: install.sh  # [linux]
+    skip: True  # [not linux]
+    test:
+      commands:
+        - test -f $PREFIX/lib/libestbase.so.{{ version }}  # [linux]
+        - test -L $PREFIX/lib/libestbase.so.2.5  # [linux]
+        - test -e $PREFIX/lib/libestbase.so.2.5  # [linux]
+        - test -f $PREFIX/lib/libestools.so.{{ version }}  # [linux]
+        - test -L $PREFIX/lib/libestools.so.2.5  # [linux]
+        - test -e $PREFIX/lib/libestools.so.2.5  # [linux]
+        - test -f $PREFIX/lib/libeststring.so.{{ version }}  # [linux]
+        - test -L $PREFIX/lib/libeststring.so.2.5  # [linux]
+        - test -e $PREFIX/lib/libeststring.so.2.5  # [linux]
+  - name: libestools-dev
+    script: install_devel.sh  # [linux]
+    skip: True  # [not linux]
+    requirements:
+      host:
+        - {{ pin_subpackage("libestools", exact=True) }}
+      run:
+        - {{ pin_subpackage("libestools", exact=True) }}
+    test:
+      commands:
+        - test -f $PREFIX/include/speech_tools/EST.h  # [linux]
+        - test -f $PREFIX/lib/speech_tools/config/config  # [linux]
+        - test -f $PREFIX/lib/speech_tools/lib/siod/init.scm  # [linux]
+        - test -L $PREFIX/lib/libestbase.so  # [linux]
+        - test -e $PREFIX/lib/libestbase.so  # [linux]
+        - test -L $PREFIX/lib/libestools.so  # [linux]
+        - test -e $PREFIX/lib/libestools.so  # [linux]
+        - test -L $PREFIX/lib/libeststring.so  # [linux]
+        - test -e $PREFIX/lib/libeststring.so  # [linux]
+  - name: speech-tools
+    script: install_bin.sh  # [linux]
+    skip: True  # [not linux]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - libgomp  # [linux]
+      host:
+        - libestools
+      run:
+        - libestools
+    test:
+      commands:
+        - test -f $PREFIX/bin/na_play  # [linux]
+        - test -f $PREFIX/bin/siod  # [linux]
 
 about:
   home: https://github.com/festvox/speech_tools
