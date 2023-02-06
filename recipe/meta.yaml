@@ -27,7 +27,6 @@ requirements:
 outputs:
   - name: libestools
     script: install.sh  # [linux]
-    skip: True  # [not linux]
     test:
       commands:
         - test -f $PREFIX/lib/libestbase.so.{{ version }}  # [linux]
@@ -41,7 +40,6 @@ outputs:
         - test -e $PREFIX/lib/libeststring.so.2.5  # [linux]
   - name: libestools-dev
     script: install_devel.sh  # [linux]
-    skip: True  # [not linux]
     requirements:
       host:
         - {{ pin_subpackage("libestools", exact=True) }}
@@ -60,7 +58,6 @@ outputs:
         - test -e $PREFIX/lib/libeststring.so  # [linux]
   - name: speech-tools
     script: install_bin.sh  # [linux]
-    skip: True  # [not linux]
     requirements:
       build:
         - {{ compiler('c') }}
