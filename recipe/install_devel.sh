@@ -4,7 +4,8 @@ set -exou
 sed -i '/^CC =/d' config/user_flags.mak
 sed -i '/^CXX =/d' config/user_flags.mak
 
-# borrowed from Arch linux - substitute #include "EST.h" for #include <speech_tools/EST.h> to ease finding the headers
+# Borrowed from Arch linux - substitute #include "EST.h" for #include <speech_tools/EST.h> to ease finding the headers
+# See https://github.com/archlinux/svntogit-packages/blob/packages/festival/trunk/PKGBUILD
 for i in $(find . -type f -a \( -name '*.h' -o -name '*.cc' -o -name '*.c' -o -name '*.cpp' \) ); do
   sed -i -e 's,"EST.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/\",speech_tools/,g' \
       -e 's,"siod.*\.h",\<speech_tools/&\>,g' -e 's,speech_tools/\",speech_tools/,g' \
@@ -40,6 +41,7 @@ cp -a config "${PREFIX}/lib/speech_tools/"
 cp make.include "${PREFIX}/lib/speech_tools/"
 cp lib/siod/*.scm "${PREFIX}/lib/speech_tools/lib/siod/"
 
+# Some parts of the libraries may need these crazy links...
 ln -s "${PREFIX}/lib/libestbase.so"     "${PREFIX}/lib/speech_tools/lib/libestbase.so"
 ln -s "${PREFIX}/lib/libestbase.a"      "${PREFIX}/lib/speech_tools/lib/libestbase.a"
 ln -s "${PREFIX}/lib/libeststring.so"   "${PREFIX}/lib/speech_tools/lib/libeststring.so"
