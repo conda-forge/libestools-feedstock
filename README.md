@@ -1,11 +1,11 @@
-About libestools
-================
+About libestools-feedstock
+==========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libestools-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/festvox/speech_tools
 
 Package license: BSD-4-Clause
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libestools-feedstock/blob/main/LICENSE.txt)
 
 Summary: EDINBURGH SPEECH TOOLS LIBRARY
 
