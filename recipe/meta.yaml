@@ -71,7 +71,7 @@ outputs:
         {% endfor %}
 
         {% set links = [
-          "lib/libestbase.so", "lib/libestools.so", "lib/libeststring.so.",
+          "lib/libestbase.so", "lib/libestools.so", "lib/libeststring.so",
         ] %}
         {% for l in links %}
         - test -L $PREFIX/{{ l }}  # [linux]
