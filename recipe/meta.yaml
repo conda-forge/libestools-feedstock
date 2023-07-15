@@ -28,6 +28,10 @@ requirements:
 outputs:
   - name: libestools
     script: install.sh  # [linux]
+    build:
+      run_exports:
+        - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
     test:
       commands:
         {% set files = [
@@ -49,6 +53,10 @@ outputs:
 
   - name: libestools-dev
     script: install_devel.sh  # [linux]
+    build:
+      run_exports:
+        - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
     requirements:
       run:
         - {{ pin_subpackage("libestools", exact=True) }}
@@ -72,6 +80,10 @@ outputs:
 
   - name: speech-tools
     script: install_bin.sh  # [linux]
+    build:
+      run_exports:
+        - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
     requirements:
       build:
         - {{ compiler('c') }}
