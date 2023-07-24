@@ -1,8 +1,9 @@
 {% set name = "libestools" %}
 {% set version = "2.5.1" %}
+{% set ver2 = '.'.join(version.split('.')[0:2]) %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name|lower }}-split
   version: {{ version }}
 
 source:
@@ -10,8 +11,10 @@ source:
   sha256: 8781ab15ce13fcddcb7df8fd23755a5cb6e4ab7d1a9bdbd741128b990b425496
 
 build:
+  run_exports:
+    - {{ pin_subpackage('libestools', max_pin='x.x') }}
   skip: True  # [not linux]
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -22,14 +25,95 @@ requirements:
   host:
     - ncurses
 
-test:
-  commands:
-    - test -f $PREFIX/lib/libestbase.so  # [linux]
-    - test -f $PREFIX/lib/libestbase.so.2.5  # [linux]
-    - test -f $PREFIX/lib/libestools.so  # [linux]
-    - test -f $PREFIX/lib/libestools.so.2.5  # [linux]
-    - test -f $PREFIX/lib/libeststring.so  # [linux]
-    - test -f $PREFIX/lib/libeststring.so.2.5  # [linux]
+outputs:
+  - name: libestools
+    script: install.sh  # [linux]
+    build:
+      run_exports:
+        - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - libgomp  # [linux]
+      host:
+        - ncurses
+
+    test:
+      commands:
+        {% set files = [
+          "libestbase.so." + version, "libestools.so." + version,
+          "libeststring.so." + version,
+        ] %}
+        {% for f in files %}
+        - test -f $PREFIX/lib/{{ f }}  # [linux]
+        {% endfor %}
+
+        {% set links = [
+          "libestbase.so." + ver2, "libestools.so." + ver2,
+          "libeststring.so." + ver2,
+        ] %}
+        {% for l in links %}
+        - test -L $PREFIX/lib/{{ l }}  # [linux]
+        - test -e $PREFIX/lib/{{ l }}  # [linux]
+        {% endfor %}
+
+  - name: libestools-dev
+    script: install_devel.sh  # [linux]
+    build:
+      run_exports:
+        - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
+    requirements:
+      run:
+        - {{ pin_subpackage("libestools", exact=True) }}
+    test:
+      commands:
+        {% set files = [
+          "include/speech_tools/EST.h", "lib/speech_tools/config/config",
+          "lib/speech_tools/lib/siod/init.scm",
+        ] %}
+        {% for f in files %}
+        - test -f $PREFIX/{{ f }}  # [linux]
+        {% endfor %}
+
+        {% set links = [
+          "lib/libestbase.so", "lib/libestools.so", "lib/libeststring.so",
+        ] %}
+        {% for l in links %}
+        - test -L $PREFIX/{{ l }}  # [linux]
+        - test -e $PREFIX/{{ l }}  # [linux]
+        {% endfor %}
+
+  - name: speech-tools
+    script: install_bin.sh  # [linux]
+    build:
+      run_exports:
+        - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - libgomp  # [linux]
+      host:
+        - {{ pin_subpackage("libestools", max_pin='x.x') }}
+      run:
+        - {{ pin_subpackage("libestools", max_pin='x.x') }}
+    test:
+      commands:
+        {% set files = [
+          "bcat", "ch_lab", "ch_track", "ch_utt", "ch_wave", "dp", "na_play",
+          "na_record", "ngram_build", "ngram_test", "ols", "ols_test", "pda",
+          "pitchmark", "scfg_make", "scfg_parse", "scfg_test", "scfg_train",
+          "sig2fv", "sigfilter", "siod", "spectgen", "tilt_analysis",
+          "tilt_synthesis", "viterbi", "wagon", "wagon_test", "wfst_build",
+          "wfst_run",
+        ] %}
+        {% for f in files %}
+        - test -f $PREFIX/bin/{{ f }}  # [linux]
+        {% endfor %}
 
 about:
   home: https://github.com/festvox/speech_tools
