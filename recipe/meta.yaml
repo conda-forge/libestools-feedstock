@@ -104,10 +104,15 @@ outputs:
     test:
       commands:
         {% set files = [
-          "bin/na_play", "bin/siod",
+          "bcat", "ch_lab", "ch_track", "ch_utt", "ch_wave", "dp", "na_play",
+          "na_record", "ngram_build", "ngram_test", "ols", "ols_test", "pda",
+          "pitchmark", "scfg_make", "scfg_parse", "scfg_test", "scfg_train",
+          "sig2fv", "sigfilter", "siod", "spectgen", "tilt_analysis",
+          "tilt_synthesis", "viterbi", "wagon", "wagon_test", "wfst_build",
+          "wfst_run",
         ] %}
         {% for f in files %}
-        - test -f $PREFIX/{{ f }}  # [linux]
+        - test -f $PREFIX/bin/{{ f }}  # [linux]
         {% endfor %}
 
 about:
