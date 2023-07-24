@@ -3,7 +3,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name|lower }}-split
   version: {{ version }}
 
 source:
@@ -31,6 +31,14 @@ outputs:
     build:
       run_exports:
         - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - libgomp  # [linux]
+      host:
+        - ncurses
 
     test:
       commands:
@@ -89,6 +97,8 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - libgomp  # [linux]
+      host:
+        - {{ pin_subpackage("libestools", max_pin='x.x') }}
       run:
         - {{ pin_subpackage("libestools", max_pin='x.x') }}
     test:
