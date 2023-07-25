@@ -60,6 +60,7 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libestools-green.svg)](https://anaconda.org/conda-forge/libestools) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libestools.svg)](https://anaconda.org/conda-forge/libestools) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libestools.svg)](https://anaconda.org/conda-forge/libestools) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libestools.svg)](https://anaconda.org/conda-forge/libestools) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libestools--dev-green.svg)](https://anaconda.org/conda-forge/libestools-dev) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libestools-dev.svg)](https://anaconda.org/conda-forge/libestools-dev) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libestools-dev.svg)](https://anaconda.org/conda-forge/libestools-dev) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libestools-dev.svg)](https://anaconda.org/conda-forge/libestools-dev) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libestools--static-green.svg)](https://anaconda.org/conda-forge/libestools-static) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libestools-static.svg)](https://anaconda.org/conda-forge/libestools-static) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libestools-static.svg)](https://anaconda.org/conda-forge/libestools-static) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libestools-static.svg)](https://anaconda.org/conda-forge/libestools-static) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-speech--tools-green.svg)](https://anaconda.org/conda-forge/speech-tools) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/speech-tools.svg)](https://anaconda.org/conda-forge/speech-tools) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/speech-tools.svg)](https://anaconda.org/conda-forge/speech-tools) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/speech-tools.svg)](https://anaconda.org/conda-forge/speech-tools) |
 
 Installing libestools-split
@@ -72,16 +73,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libestools, libestools-dev, speech-tools` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libestools, libestools-dev, libestools-static, speech-tools` can be installed with `conda`:
 
 ```
-conda install libestools libestools-dev speech-tools
+conda install libestools libestools-dev libestools-static speech-tools
 ```
 
 or with `mamba`:
 
 ```
-mamba install libestools libestools-dev speech-tools
+mamba install libestools libestools-dev libestools-static speech-tools
 ```
 
 It is possible to list all of the versions of `libestools` available on your platform with `conda`:
