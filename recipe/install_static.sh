@@ -1,6 +1,7 @@
 set -exou
 
 mkdir -p "${PREFIX}/lib"
+mkdir -p "${PREFIX}/lib/speech_tools/lib"
 
 cp lib/lib*.a "${PREFIX}/lib/"
 
