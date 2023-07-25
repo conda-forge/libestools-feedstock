@@ -85,6 +85,24 @@ outputs:
         - test -L $PREFIX/{{ l }}  # [linux]
         - test -e $PREFIX/{{ l }}  # [linux]
         {% endfor %}
+  
+  - name: libestools-static
+    script: install_static.sh  # [linux]
+    build:
+      run_exports:
+        - {{ pin_subpackage('libestools', max_pin='x.x') }}
+
+    requirements:
+      run:
+        - {{ pin_subpackage("libestools", exact=True) }}
+    test:
+      commands:
+        {% set files = [
+          "lib/libestbase.a", "lib/libestools.a", "lib/libeststring.so",
+        ] %}
+        {% for f in files %}
+        - test -f $PREFIX/{{ f }}  # [linux]
+        {% endfor %}
 
   - name: speech-tools
     script: install_bin.sh  # [linux]
