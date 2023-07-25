@@ -98,7 +98,7 @@ outputs:
     test:
       commands:
         {% set files = [
-          "lib/libestbase.a", "lib/libestools.a", "lib/libeststring.so",
+          "lib/libestbase.a", "lib/libestools.a", "lib/libeststring.a",
         ] %}
         {% for f in files %}
         - test -f $PREFIX/{{ f }}  # [linux]
