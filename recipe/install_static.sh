@@ -1,5 +1,7 @@
 set -exou
 
+mkdir -p "${PREFIX}/lib"
+
 cp lib/lib*.a "${PREFIX}/lib/"
 
 # Some parts of the libraries may need these crazy links...
