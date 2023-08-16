@@ -11,10 +11,8 @@ source:
   sha256: 8781ab15ce13fcddcb7df8fd23755a5cb6e4ab7d1a9bdbd741128b990b425496
 
 build:
-  run_exports:
-    - {{ pin_subpackage('libestools', max_pin='x.x') }}
   skip: True  # [not linux]
-  number: 5
+  number: 6
 
 requirements:
   build:
@@ -88,10 +86,6 @@ outputs:
   
   - name: libestools-static
     script: install_static.sh  # [linux]
-    build:
-      run_exports:
-        - {{ pin_subpackage('libestools', max_pin='x.x') }}
-
     requirements:
       run:
         - {{ pin_subpackage("libestools", exact=True) }}
