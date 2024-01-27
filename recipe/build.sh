@@ -1,6 +1,6 @@
 set -exou
 
-if [[ "$target_platform" == linux-* ]]
+if [[ "$target_platform" == linux-* ]]; then
   sed -i 's/^ifdef GCC/ifeq "0" "1"/' config/compilers/gcc.mak
   ./configure SHARED=2 DEBUG=1 COMPILER=gcc
 else
