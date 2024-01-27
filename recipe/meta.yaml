@@ -11,15 +11,16 @@ source:
   sha256: 8781ab15ce13fcddcb7df8fd23755a5cb6e4ab7d1a9bdbd741128b990b425496
 
 build:
-  skip: True  # [not linux]
-  number: 6
+  skip: True  # [win]
+  number: 7
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - make
-    - libgomp  # [linux]
+    - llvm-openmp  # [osx]
+    - libgomp      # [linux]
   host:
     - ncurses
 
@@ -34,6 +35,7 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - llvm-openmp  # [osx]
         - libgomp  # [linux]
       host:
         - ncurses
@@ -109,6 +111,7 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - libgomp  # [linux]
+        - llvm-openmp  # [osx]
       host:
         - {{ pin_subpackage("libestools", max_pin='x.x') }}
       run:

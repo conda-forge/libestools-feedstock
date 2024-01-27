@@ -1,8 +1,11 @@
 set -exou
 
-sed -i 's/^ifdef GCC/ifeq "0" "1"/' config/compilers/gcc.mak
-
-./configure SHARED=2 DEBUG=1 COMPILER=gcc
+if [[ "$target_platform" == linux-* ]]; then
+  sed -i 's/^ifdef GCC/ifeq "0" "1"/' config/compilers/gcc.mak
+  ./configure SHARED=2 DEBUG=1 COMPILER=gcc
+else
+  ./configure SHARED=2 DEBUG=1 COMPILER=clang
+fi
 
 make  # cannot build in parallel, the build system does not support it
 
